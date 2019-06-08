@@ -54,7 +54,7 @@ public class LinkedList {
 			n.next=newnode;
 		}
 	}
-	// delete the first  occurence of the key
+	// delete the first  occurrence of the key
 	public void delete(int x) {
 		Node prev = null;
 		Node n= head;
@@ -101,9 +101,74 @@ public class LinkedList {
 		
 		prev.next=n.next;
 	}
+	// by automatic  garbage collection in java
 	public void deleteAll() {
 		head=null;
 	}
+	//recursive length calculation 
+	public int length(Node head) {
+		if(head==null) {
+			return 0;
+		}
+		return 1+length(head.next);
+		
+	}
+	//recursive search
+	public  boolean search(Node head,int x) {
+		if(head==null) {
+			return false;
+		}
+		if(head.data==x) {
+			return true;
+		}
+		return search(head.next,x);
+	}
+	// get nth  elementh fromm starting
+	public  int getNth(Node head,int index) {
+		int count=1;
+		
+			if(count==index) {
+				return head.data;
+			}
+			
+			return getNth(head.next,index-1);
+			
+		
+	}
+	// get the middle elemennt of the linked list
+	public  int getMiddle(Node head)
+	   {
+	         Node temp=head;
+	         int len=0;
+	         while(temp!=null){
+	             temp=temp.next;
+	             len++;
+	         }
+	        
+	             int i=len/2;
+	             for(int j=0;j<i;j++){
+	                 head=head.next;
+	             }
+	             return head.data;
+	             
+	         
+	         
+	   }
+	
+	// Occurrence of a key
+	static int count;
+	public static int frequency(Node node, int search)
+	{
+	    if(node==null){
+	        return count;
+	    }
+	    if(node.data==search){
+	        count++;
+	    }
+	    return frequency(node.next,search);
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		LinkedList list =new LinkedList();
@@ -116,6 +181,8 @@ public class LinkedList {
 		list.insertAt(3, 8);
 		list.insertAt(0, 4);
 		list.append(9);
+		list.append(9);
+		list.append(9);
 		list.insertAt(0,9);
 		list.printList();
 		list.delete(5);
@@ -126,8 +193,25 @@ public class LinkedList {
 		list.deleteAt(10);
 		System.out.println();
 		list.printList();
+		System.out.println();
+		System.out.println(list.length(list.head));
+		if(list.search(list.head, 9)) {
+			System.out.println("yes");
+		}
+		else {
+			System.out.println("no");
+		}
+		System.out.println(list.getNth(list.head,3));
+		System.out.println(frequency(list.head,9));
 
 	}
 	
 
 }
+
+
+
+
+
+//
+
