@@ -167,7 +167,22 @@ public class LinkedList {
 	    }
 	    return frequency(node.next,search);
 	}
-	
+	// detect loop using floyd cycle algo
+	public int detectLoop(Node head) {
+        if(head==null){
+            return 0;
+        }
+        Node slow_p=head;
+        Node fast_p=head;
+        while(fast_p!=null && fast_p.next!=null && slow_p!=null){
+            slow_p=slow_p.next;
+            fast_p=fast_p.next.next;
+            if(slow_p==fast_p){
+                return 1;
+            }
+        }
+        return 0;
+    }
 	
 	
 	public static void main(String[] args) {
@@ -203,6 +218,7 @@ public class LinkedList {
 		}
 		System.out.println(list.getNth(list.head,3));
 		System.out.println(frequency(list.head,9));
+
 
 	}
 	
