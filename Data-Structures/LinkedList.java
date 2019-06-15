@@ -183,7 +183,148 @@ public class LinkedList {
         }
         return 0;
     }
-	
+	//rotate a link list
+	public void rotate(int k) 
+    { 
+        if (k == 0) return; 
+        int len=length(head);
+        if(k>len) {
+        	k=k%len;
+        }
+  
+         
+        Node current  = head; 
+  
+        
+        int count = 1; 
+        while (count < k && current !=  null) 
+        { 
+            current = current.next; 
+            count++; 
+        } 
+  
+         
+        if (current == null) 
+            return; 
+  
+        
+        Node kthNode = current; 
+  
+        
+        while (current.next != null) 
+            current = current.next; 
+  
+        
+        current.next = head; 
+  
+        // Change head to (k+1)th node 
+        
+        head = kthNode.next; 
+  
+        // change next of kth node to null 
+        kthNode.next = null; 
+  
+    }
+	//reverse  link list
+	public void reverse() {
+		Node curr=head;
+		Node prev=null;
+		Node next=null;
+		while(curr!=null) {
+			next=curr.next;
+			//reversing happens now
+			curr.next=prev;
+			prev=curr;
+			curr=next;
+		}
+		head=prev;
+	}
+	//reverse a linked list in group of given size
+	Node reverse(Node head, int k) 
+    { 
+       Node current = head; 
+       Node next = null; 
+       Node prev = null; 
+         
+       int count = 0; 
+  
+       /* Reverse first k nodes of linked list */
+       while (count < k && current != null)  
+       { 
+           next = current.next; 
+           current.next = prev; 
+           prev = current; 
+           current = next; 
+           count++; 
+       } 
+  
+       /* next is now a pointer to (k+1)th node  
+          Recursively call for the list starting from current. 
+          And make rest of the list as next of first node */
+       if (next != null)  
+          head.next = reverse(next, k); 
+  
+       // prev is now head of input list 
+       return prev; 
+    }  
+	//check if palindrome  using stack
+	boolean isPalindrome(Node head) 
+    {
+      
+        Node temp=head;
+        boolean flag=true;
+        Stack<Integer> s=new Stack<Integer>();
+        while(temp!=null){
+            s.push(temp.data);
+            temp=temp.next;
+        }
+        while(head!=null){
+            int p=s.pop();
+            if(head.data!=p){
+                flag=false;
+            }
+            head=head.next;
+        }
+        return flag;
+        
+    }    
+	//remove a loop in linked list
+	public static void removeTheLoop(Node head)
+    {
+        Node slow=head;
+        Node fast=head;
+        while(slow!=null && fast!=null  && fast.next!=null){
+         slow=slow.next;
+         fast=fast.next.next;
+         if(slow==fast){
+             Node ptr1=slow;
+             Node ptr2=slow;
+             int k=1;
+             while(ptr2.next!=ptr1){
+                 ptr2=ptr2.next;
+                 k++;
+                 
+             }
+             ptr1=head;
+             ptr2=head;
+             for(int i=0;i<k;i++){
+                 ptr2=ptr2.next;
+             }
+             while(ptr1!=ptr2){
+                 ptr1=ptr1.next;
+                 ptr2=ptr2.next;
+             }
+             while(ptr2.next!=ptr1){
+                 ptr2=ptr2.next;
+             }
+             ptr2.next=null;
+             return;
+             
+         }
+        }
+        
+    
+    }
 	
 	public static void main(String[] args) {
 		LinkedList list =new LinkedList();
@@ -218,6 +359,10 @@ public class LinkedList {
 		}
 		System.out.println(list.getNth(list.head,3));
 		System.out.println(frequency(list.head,9));
+		list.rotate(3);
+		list.printList();
+		
+		
 
 
 	}
@@ -229,5 +374,4 @@ public class LinkedList {
 
 
 
-//
 
