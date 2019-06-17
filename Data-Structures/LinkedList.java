@@ -325,6 +325,196 @@ public class LinkedList {
         
     
     }
+	//intersection point of two linked list
+	int intersectPoint(Node headA, Node headB)
+	{
+         Node temp1=headA;
+         Node temp2=headB;
+         int len1=0;
+         int len2=0;
+         while(temp1!=null){
+             len1++;
+             temp1=temp1.next;
+         }
+         while(temp2!=null){
+             len2++;
+             temp2=temp2.next;
+         }
+         int d=Math.abs(len1-len2);
+         Node max=(len1>=len2)?headA:headB; 
+         Node min=(len2<=len1)?headB:headA;
+         for(int i=0;i<d;i++){
+             max=max.next;
+             
+         }
+         while(max!=min){
+             max=max.next;
+             min=min.next;
+         }
+         return max.data;
+         
+	}
+	//merge 2 sorted list
+	Node sortedMerge(Node headA, Node headB) {
+	     // This is a "method-only" submission. 
+	     // You only need to complete this method
+	     if(headA==null) return headB;
+	     if(headB==null) return headA;
+	     if(headA.data<headB.data){
+	         headA.next=sortedMerge(headA.next,headB);
+	         return headA;
+	     }
+	     else{
+	         headB.next=sortedMerge(headA,headB.next);
+	         return headB;
+	     }
+	     } 
+	//seperate 1 . 0 and 2s
+	static Node segregate(Node head)
+    {
+        if(head==null || head.next==null) 
+        { 
+            return head; 
+        } 
+         
+        Node zeroD = new Node(0);  
+        Node oneD = new Node(0);  
+        Node twoD = new Node(0);  
+  
+        
+        Node zero = zeroD, one = oneD, two = twoD;  
+         
+        Node curr = head;  
+        while (curr!=null)  
+        {  
+            if (curr.data == 0)  
+            {  
+                zero.next = curr;  
+                zero = zero.next;  
+                curr = curr.next;  
+            } 
+            else if (curr.data == 1)  
+            {  
+                one.next = curr;  
+                one = one.next;  
+                curr = curr.next;  
+            }  
+            else 
+            {  
+                two.next = curr;  
+                two = two.next;  
+                curr = curr.next;  
+            }  
+        } 
+        // Attach three lists  
+        zero.next = (oneD.next!=null) ? (oneD.next) : (twoD.next);  
+        one.next = twoD.next;  
+        two.next = null; 
+        // Updated head  
+        head = zeroD.next; 
+        return head; 
+    }
+	//swap pairwise data
+	public static Node pairwise_swap(Node node)
+    {
+        // your code here
+        Node temp1=node;
+        Node temp2=node.next;
+        int temp=0;
+        
+        while(temp1!=null && temp1.next!=null ){
+        
+            temp=temp1.data;
+            temp1.data=temp1.next.data;
+            temp1.next.data=temp;
+            temp1=temp1.next.next;
+            
+            
+            
+        }
+        return node;
+    }
+	//add two  linked list as numbers
+	/* Adds contents of two linked lists and return the head node of resultant list */
+	Node addTwoLists(Node first, Node second) { 
+		Node res = null; // res is head node of the resultant list 
+		Node prev = null; 
+		Node temp = null; 
+		int carry = 0, sum; 
+
+		while (first != null || second != null) //while both lists exist 
+		{ 
+			// Calculate value of next digit in resultant list. 
+			// The next digit is sum of following things 
+			// (i) Carry 
+			// (ii) Next digit of first list (if there is a next digit) 
+			// (ii) Next digit of second list (if there is a next digit) 
+			sum = carry + (first != null ? first.data : 0) 
+					+ (second != null ? second.data : 0); 
+
+			// update carry for next calulation 
+			carry = (sum >= 10) ? 1 : 0; 
+
+			// update sum if it is greater than 10 
+			sum = sum % 10; 
+
+			// Create a new node with sum as data 
+			temp = new Node(sum); 
+
+			// if this is the first node then set it as head of 
+			// the resultant list 
+			if (res == null) { 
+				res = temp; 
+			} else // If this is not the first node then connect it to the rest. 
+			{ 
+				prev.next = temp; 
+			} 
+
+			// Set prev for next insertion 
+			prev = temp; 
+
+			// Move first and second pointers to next nodes 
+			if (first != null) { 
+				first = first.next; 
+			} 
+			if (second != null) { 
+				second = second.next; 
+			} 
+		} 
+
+		if (carry > 0) { 
+			temp.next = new Node(carry); 
+		} 
+
+		// return head of the resultant list 
+		return res; 
+	} 
+	//delete a node without head pointer and only node reference
+	public void deleteNode(Node node)
+    {
+         // Your code here
+         Node temp=node;
+         Node prev=node;
+         
+         while(temp.next!=null){
+             temp.data=temp.next.data;
+             prev=temp;
+             temp=temp.next;
+             
+         }
+         prev.next=null;
+         
+    }
+	//Flattening a Linked List 
+	Node flatten(Node root)
+    {
+	if(root==null || root.next==null){
+	    return root;
+	}
+	root.next=flatten(root.next);
+	root=sortedMerge(root,root.next);
+	return root;
+    }
 	
 	public static void main(String[] args) {
 		LinkedList list =new LinkedList();
